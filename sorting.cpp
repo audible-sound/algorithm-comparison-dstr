@@ -1,21 +1,5 @@
 #include "sorting.hpp"
 
-// Use fast and slow pointer to find the middle node
-SkillNode* getMiddleSkillNode(SkillNode *head) {
-    // If the list is empty or has only one element return head
-    if (!head || !head->next) return head;
-
-    SkillNode* slow = head;
-    SkillNode* fast = head->next;
-
-    while (fast && fast->next) {
-        slow = slow->next;
-        fast = fast->next->next;
-    }
-
-    return slow;
-}
-
 // Recursively merge two sorted linked lists
 SkillNode* mergeTwoSortedSkillLists(SkillNode *left, SkillNode *right) {
     // If list is empty return the other list
@@ -37,9 +21,9 @@ SkillNode* mergeTwoSortedSkillLists(SkillNode *left, SkillNode *right) {
 SkillNode *mergeSortSkillLinkedList(SkillNode *head) {
     if (!head || !head->next) return head;
 
-    SkillNode* mid = getMiddleSkillNode(head);
+    SkillNode* mid = getMiddleSkillNodeForSort(head);
     SkillNode* secondHalf = mid->next;
-    mid->next = NULL;
+    mid->next = nullptr;
 
     SkillNode* left = mergeSortSkillLinkedList(head);
     SkillNode* right = mergeSortSkillLinkedList(secondHalf);

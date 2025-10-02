@@ -2,4 +2,4 @@
 
 Compile all .cpp files before running.
 ``` 
-g++ main.cpp fileUtils.cpp sorting.cpp searching.cpp 
+g++ main.cpp fileUtils.cpp sorting.cpp searching.cpp linkedList.cpp

@@ -22,3 +22,6 @@ struct Resume
     SkillNode *skillLinkedListHead;
     Resume *next;
 };
+
+SkillNode* getMiddleSkillNodeForSort(SkillNode *head);
+SkillNode* getMiddleSkillNodeForSearch(SkillNode *left, SkillNode *right);
