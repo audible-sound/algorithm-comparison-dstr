@@ -94,13 +94,13 @@ JobDescription *createJobDescription(const int index, const string &line)
     return jobDesc;
 }
 
-JobNode *fetchJobs()
+JobDescription *fetchJobs()
 {
     ifstream file(JOB_DESCRIPTION_PATH);
     string line;
     int index = 0;
-    JobNode *head = nullptr;
-    JobNode *current = nullptr;
+    JobDescription *head = nullptr;
+    JobDescription *current = nullptr;
 
     if (!file.is_open())
     {
@@ -114,8 +114,8 @@ JobNode *fetchJobs()
     while (getline(file, line))
     {
         JobDescription *newJobDesc = createJobDescription(index, line);
-        JobNode *newJobNode = new JobNode();
-        newJobNode->jobDesc = newJobDesc;
+        JobDescription *newJobNode = new JobDescription();
+        *newJobNode = *newJobDesc;
         newJobNode->next = nullptr;
 
         if (!head)
@@ -144,13 +144,13 @@ Resume *createResume(const int index, const string &line)
     return resume;
 }
 
-ResumeNode *fetchResumes()
+Resume *fetchResumes()
 {
     ifstream file(RESUME_PATH);
     string line;
     int index = 0;
-    ResumeNode *head = nullptr;
-    ResumeNode *current = nullptr;
+    Resume *head = nullptr;
+    Resume *current = nullptr;
 
     if (!file.is_open())
     {
@@ -164,8 +164,8 @@ ResumeNode *fetchResumes()
     while (getline(file, line))
     {
         Resume *newResume = createResume(index, line);
-        ResumeNode *newResumeNode = new ResumeNode();
-        newResumeNode->resume = newResume;
+        Resume *newResumeNode = new Resume();
+        *newResumeNode = *newResume;
         newResumeNode->next = nullptr;
 
         if (!head)

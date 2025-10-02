@@ -8,29 +8,17 @@ struct SkillNode
     SkillNode *next;
 };
 
-class JobDescription
+struct JobDescription
 {
-public:
     int jobID;
     string jobTitle;
     SkillNode *skillLinkedListHead;
+    JobDescription *next;
 };
 
-class Resume
+struct Resume
 {
-public:
     int resumeID;
     SkillNode *skillLinkedListHead;
-};
-
-struct JobNode
-{
-    JobDescription *jobDesc;
-    JobNode *next;
-};
-
-struct ResumeNode
-{
-    Resume *resume;
-    ResumeNode *next;
+    Resume *next;
 };

@@ -9,6 +9,6 @@ string extractSkillsString(const string &line);
 SkillNode *createSkillLinkedList(const string &skillsStr);
 bool isCapital(const char c);
 JobDescription *createJobDescription(const int index, const string &line);
-JobNode *fetchJobs();
+JobDescription *fetchJobs();
 Resume *createResume(const int index, const string &line);
-ResumeNode *fetchResumes();
+Resume *fetchResumes();
