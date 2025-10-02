@@ -1,0 +1,107 @@
+# Build artifacts
+*.o
+*.obj
+*.ko
+*.mod
+*.elf
+*.dll
+*.lib
+*.so
+*.a
+*.exe
+*.out
+*.app
+*.ipa
+*.dSYM
+*.map
+*.su
+*.exp
+*.ilk
+*.pdb
+*.tds
+*.sym
+*.bin
+*.hex
+*.lst
+*.bak
+
+# Intermediate files
+*.i
+*.s
+*.asm
+*.ii
+*.mi
+*.ti
+*.gch
+*.pch
+*.pki
+*.ncb
+*.sdf
+*.suo
+*.user
+*.aps
+*.bsc
+*.sbr
+*.idb
+*.opt
+*.res
+*.rsc
+
+# IDE and Editor-specific files
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.VC.opendb
+*.vspx
+*.psess
+*.vsp
+*.sap
+*.e2e
+*.gpState
+_ReSharper*/
+*.resharper
+*.userprefs
+
+# Xcode
+build/
+DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcworkspace
+*.xcuserdatad
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+
+# Eclipse
+.project
+.cproject
+.settings/
+
+# CLion
+cmake-build-*/
+.idea/
+
+# VS Code
+.vscode/
+.history/
+.cache/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+_CPack_Packages/
+
+# Other common files
+*.log
+*.tmp
+*.swp
+*.bak
+*~
+*.DS_Store
+Thumbs.db
