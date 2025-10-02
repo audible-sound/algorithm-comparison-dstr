@@ -1,7 +1,7 @@
 #include "searching.hpp"
 #include "sorting.hpp"
 
-SkillNode* binarySearchSkillList(SkillNode *head, const string &target) {
+bool binarySearchSkillList(SkillNode *head, const string &target) {
     SkillNode* start = head;
     SkillNode* end = nullptr;
 
@@ -10,15 +10,15 @@ SkillNode* binarySearchSkillList(SkillNode *head, const string &target) {
         SkillNode* mid = getMiddleSkillNode(start);
 
         if (mid == nullptr)
-            return nullptr;
+            return false;
 
         if (mid->skillName == target)
-            return mid;
+            return true;
         else if (mid->skillName < target) // Move to the right half
             start = mid->next;
         else // Move to the left half
             end = mid;
     }
-    
-    return nullptr;
+
+    return false;
 }

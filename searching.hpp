@@ -1,4 +1,4 @@
 #pragma once
 #include "linkedList.hpp"
 
-SkillNode* binarySearchSkillList(SkillNode *head, const string &target);
+bool binarySearchSkillList(SkillNode *head, const string &target);
