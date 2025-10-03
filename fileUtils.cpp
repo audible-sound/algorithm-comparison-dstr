@@ -19,7 +19,7 @@ string extractJobTitle(const string &line)
         }
         i++;
     }
-    string jobTitle = line.substr(0, i);
+    string jobTitle = line.substr(1, i);
     return jobTitle;
 }
 
