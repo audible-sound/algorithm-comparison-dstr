@@ -5,6 +5,8 @@
 #include "linkedList.hpp"
 #include "searching.hpp"
 #include "sorting.hpp"
+#include "linearSearchLinkedList.hpp"
+#include "quickSortLinkedList.hpp"
 
 using namespace std;
 using namespace std::chrono;
@@ -127,7 +129,9 @@ void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, Sk
         }
         else if (sortChoice == 2)
         {
-            // implement later
+            SkillNode* tail = getTail(jobSkill);
+            SkillNode* afterSort = quickSort(jobSkill, getTail(jobSkill));
+            currentJob->skillLinkedListHead = afterSort;
         }
         *fetchDataMemory_ptr += sizeof(JobDescription) + currentJob->jobTitle.capacity();
         currentJob = currentJob->next;
@@ -149,6 +153,18 @@ void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, Sk
             while (userSkill)
             {
                 if (binarySearchSkillList(jobSkill, userSkill->skillName))
+                {
+                    skillMatchCount++;
+                }
+                userSkill = userSkill->next;
+            }
+        }
+        else if(searchChoice == 1)
+        {
+            SkillNode *userSkill = skillHead;
+            while (userSkill)
+            {
+                if (linearSearchSkill(jobSkill, userSkill->skillName))
                 {
                     skillMatchCount++;
                 }
@@ -245,7 +261,9 @@ void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice,
         }
         else if (sortChoice == 2)
         {
-            // implement later
+            SkillNode* tail = getTail(resumeSkill);
+            SkillNode* afterSort = quickSort(resumeSkill, getTail(resumeSkill));
+            currentResume->skillLinkedListHead = afterSort;
         }
         *fetchDataMemory_ptr += sizeof(Resume) + sizeof(int);
         currentResume = currentResume->next;
@@ -267,6 +285,18 @@ void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice,
             while (userSkill)
             {
                 if (binarySearchSkillList(resumeSkill, userSkill->skillName))
+                {
+                    skillMatchCount++;
+                }
+                userSkill = userSkill->next;
+            }
+        }
+        else if(searchChoice == 1)
+        {
+            SkillNode *userSkill = skillHead;
+            while (userSkill)
+            {
+                if (linearSearchSkill(resumeSkill, userSkill->skillName))
                 {
                     skillMatchCount++;
                 }
