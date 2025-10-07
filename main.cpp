@@ -5,8 +5,6 @@
 #include "linkedList.hpp"
 #include "searching.hpp"
 #include "sorting.hpp"
-#include "linearSearchLinkedList.hpp"
-#include "quickSortLinkedList.hpp"
 
 using namespace std;
 using namespace std::chrono;
@@ -38,6 +36,13 @@ void printSearchingOptions()
     cout << "Select a searching algorithm:\n";
     cout << "1. Linear Search\n";
     cout << "2. Binary Search\n";
+}
+
+void printLinearSortingOptions()
+{
+    cout << "Do you want to sort array before linear search:\n";
+    cout << "1. Yes\n";
+    cout << "2. No\n";
 }
 
 void getSkillsInputLinkedList(int *count, SkillNode *&head, size_t *memoryUsage)
@@ -73,10 +78,10 @@ void getSkillsInputLinkedList(int *count, SkillNode *&head, size_t *memoryUsage)
     cout << endl;
 }
 
-void printMatchedJobs(JobDescription *matchedJobsHead, const int jobMatchCount)
+void printMatchedJobsLinkedList(JobDescriptionNode *matchedJobsHead, const int jobMatchCount)
 {
     cout << "Matched Jobs:\n";
-    JobDescription *temp = matchedJobsHead;
+    JobDescriptionNode *temp = matchedJobsHead;
     while (temp)
     {
         cout << "Job ID: " << temp->jobID << ", Title: " << temp->jobTitle << endl;
@@ -99,20 +104,27 @@ void printMatchedJobs(JobDescription *matchedJobsHead, const int jobMatchCount)
     cout << "Total matched jobs: " << jobMatchCount << endl;
 }
 
-void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, SkillNode *skillHead, const int count, size_t *fetchDataMemory_ptr, size_t *matchingMemory_ptr)
+void findMatchingJobsLinkedList(
+    const int sortChoice,
+    const int searchChoice,
+    const int linearSortChoice,
+    SkillNode *skillHead,
+    const int count,
+    size_t *fetchDataMemory_ptr,
+    size_t *matchingMemory_ptr)
 {
     using namespace std::chrono;
     cout << "Finding matching jobs...\n";
 
     // Measure fetch time
     auto fetchStart = high_resolution_clock::now();
-    JobDescription *jobs = fetchJobs();
+    JobDescriptionNode *jobs = fetchJobs();
     auto fetchEnd = high_resolution_clock::now();
     auto fetchDuration = duration_cast<milliseconds>(fetchEnd - fetchStart);
 
-    JobDescription *currentJob = jobs;
-    JobDescription *matchedJobsHead = nullptr;
-    JobDescription *matchedJobsTail = nullptr;
+    JobDescriptionNode *currentJob = jobs;
+    JobDescriptionNode *matchedJobsHead = nullptr;
+    JobDescriptionNode *matchedJobsTail = nullptr;
     int jobsMatchCount = 0;
 
     *fetchDataMemory_ptr = 0;
@@ -127,13 +139,13 @@ void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, Sk
             jobSkill = mergeSortSkillLinkedList(jobSkill);
             currentJob->skillLinkedListHead = jobSkill;
         }
-        else if (sortChoice == 2)
+        else if (sortChoice == 2 && linearSortChoice == 1)
         {
-            SkillNode* tail = getTail(jobSkill);
-            SkillNode* afterSort = quickSort(jobSkill, getTail(jobSkill));
+            SkillNode *tail = getTail(jobSkill);
+            SkillNode *afterSort = quickSort(jobSkill, getTail(jobSkill));
             currentJob->skillLinkedListHead = afterSort;
         }
-        *fetchDataMemory_ptr += sizeof(JobDescription) + currentJob->jobTitle.capacity();
+        *fetchDataMemory_ptr += sizeof(JobDescriptionNode) + currentJob->jobTitle.capacity();
         currentJob = currentJob->next;
     }
     auto sortEnd = high_resolution_clock::now();
@@ -159,7 +171,7 @@ void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, Sk
                 userSkill = userSkill->next;
             }
         }
-        else if(searchChoice == 1)
+        else if (searchChoice == 1)
         {
             SkillNode *userSkill = skillHead;
             while (userSkill)
@@ -175,7 +187,7 @@ void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, Sk
         double matchPercentage = (double)skillMatchCount / count * 100.0;
         if (matchPercentage >= 50.0)
         {
-            JobDescription *newMatch = new JobDescription();
+            JobDescriptionNode *newMatch = new JobDescriptionNode();
             newMatch->jobID = currentJob->jobID;
             newMatch->jobTitle = currentJob->jobTitle;
             newMatch->skillLinkedListHead = currentJob->skillLinkedListHead;
@@ -190,7 +202,7 @@ void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, Sk
                 matchedJobsTail->next = newMatch;
                 matchedJobsTail = newMatch;
             }
-            *matchingMemory_ptr += sizeof(JobDescription) + newMatch->jobTitle.capacity();
+            *matchingMemory_ptr += sizeof(JobDescriptionNode) + newMatch->jobTitle.capacity();
             jobsMatchCount++;
         }
         currentJob = currentJob->next;
@@ -198,17 +210,17 @@ void findMatchingJobsLinkedList(const int sortChoice, const int searchChoice, Sk
     auto matchEnd = high_resolution_clock::now();
     auto matchDuration = duration_cast<milliseconds>(matchEnd - matchStart);
 
-    printMatchedJobs(matchedJobsHead, jobsMatchCount);
+    printMatchedJobsLinkedList(matchedJobsHead, jobsMatchCount);
 
     cout << "Fetch Time: " << fetchDuration.count() << " ms\n";
     cout << "Sort Time: " << sortDuration.count() << " ms\n";
     cout << "Match Time: " << matchDuration.count() << " ms\n";
 }
 
-void printMatchedResumes(Resume *matchedResumesHead, const int resumeMatchCount)
+void printMatchedResumesLinkedList(ResumeNode *matchedResumesHead, const int resumeMatchCount)
 {
     cout << "Matched Resumes:\n";
-    Resume *temp = matchedResumesHead;
+    ResumeNode *temp = matchedResumesHead;
     while (temp)
     {
         cout << "Resume ID: " << temp->resumeID << endl;
@@ -231,20 +243,27 @@ void printMatchedResumes(Resume *matchedResumesHead, const int resumeMatchCount)
     cout << "Total matched resumes: " << resumeMatchCount << endl;
 }
 
-void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice, SkillNode *skillHead, const int count, size_t *fetchDataMemory_ptr, size_t *matchingMemory_ptr)
+void findMatchingResumesLinkedList(
+    const int sortChoice,
+    const int searchChoice,
+    const int linearSortChoice,
+    SkillNode *skillHead,
+    const int count,
+    size_t *fetchDataMemory_ptr,
+    size_t *matchingMemory_ptr)
 {
     using namespace std::chrono;
     cout << "Finding matching resumes...\n";
 
     // Measure fetch time
     auto fetchStart = high_resolution_clock::now();
-    Resume *resumes = fetchResumes();
+    ResumeNode *resumes = fetchResumes();
     auto fetchEnd = high_resolution_clock::now();
     auto fetchDuration = duration_cast<milliseconds>(fetchEnd - fetchStart);
 
-    Resume *currentResume = resumes;
-    Resume *matchedResumesHead = nullptr;
-    Resume *matchedResumesTail = nullptr;
+    ResumeNode *currentResume = resumes;
+    ResumeNode *matchedResumesHead = nullptr;
+    ResumeNode *matchedResumesTail = nullptr;
     int resumeMatchCount = 0;
     *fetchDataMemory_ptr = 0;
     *matchingMemory_ptr = 0;
@@ -259,13 +278,13 @@ void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice,
             resumeSkill = mergeSortSkillLinkedList(resumeSkill);
             currentResume->skillLinkedListHead = resumeSkill;
         }
-        else if (sortChoice == 2)
+        else if (sortChoice == 2 && linearSortChoice == 1)
         {
-            SkillNode* tail = getTail(resumeSkill);
-            SkillNode* afterSort = quickSort(resumeSkill, getTail(resumeSkill));
+            SkillNode *tail = getTail(resumeSkill);
+            SkillNode *afterSort = quickSort(resumeSkill, getTail(resumeSkill));
             currentResume->skillLinkedListHead = afterSort;
         }
-        *fetchDataMemory_ptr += sizeof(Resume) + sizeof(int);
+        *fetchDataMemory_ptr += sizeof(ResumeNode) + sizeof(int);
         currentResume = currentResume->next;
     }
     auto sortEnd = high_resolution_clock::now();
@@ -291,7 +310,7 @@ void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice,
                 userSkill = userSkill->next;
             }
         }
-        else if(searchChoice == 1)
+        else if (searchChoice == 1)
         {
             SkillNode *userSkill = skillHead;
             while (userSkill)
@@ -307,7 +326,7 @@ void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice,
         double matchPercentage = (double)skillMatchCount / count * 100.0;
         if (matchPercentage >= 50.0)
         {
-            Resume *newMatch = new Resume();
+            ResumeNode *newMatch = new ResumeNode();
             newMatch->resumeID = currentResume->resumeID;
             newMatch->skillLinkedListHead = currentResume->skillLinkedListHead;
             newMatch->next = nullptr;
@@ -321,7 +340,7 @@ void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice,
                 matchedResumesTail->next = newMatch;
                 matchedResumesTail = newMatch;
             }
-            *matchingMemory_ptr += sizeof(Resume) + sizeof(int);
+            *matchingMemory_ptr += sizeof(ResumeNode) + sizeof(int);
             resumeMatchCount++;
         }
         currentResume = currentResume->next;
@@ -329,10 +348,149 @@ void findMatchingResumesLinkedList(const int sortChoice, const int searchChoice,
     auto matchEnd = high_resolution_clock::now();
     auto matchDuration = duration_cast<milliseconds>(matchEnd - matchStart);
 
-    printMatchedResumes(matchedResumesHead, resumeMatchCount);
+    printMatchedResumesLinkedList(matchedResumesHead, resumeMatchCount);
 
     cout << "Fetch Time: " << fetchDuration.count() << " ms\n";
     cout << "Sort Time: " << sortDuration.count() << " ms\n";
+    cout << "Match Time: " << matchDuration.count() << " ms\n";
+}
+
+void getSkillsInputArray(int &count, string *&skills, size_t *memoryUsage)
+{
+    cout << "Enter skills (type 'done' to finish):\n";
+    string skill;
+    count = 0;
+    int capacity = 10;
+    skills = new string[capacity];
+    *memoryUsage = 0;
+
+    while (true)
+    {
+        cin >> skill;
+        if (skill == "done")
+            break;
+
+        if (count >= capacity)
+        {
+            capacity *= 2;
+            string *newSkills = new string[capacity];
+            for (int i = 0; i < count; i++)
+                newSkills[i] = skills[i];
+            delete[] skills;
+            skills = newSkills;
+        }
+        skills[count] = skill;
+        count++;
+        *memoryUsage += sizeof(string) + skill.capacity();
+    }
+    cout << endl;
+}
+
+void printMatchedJobsArray(ResultJob *results, int resultCount)
+{
+    cout << "Matched Jobs:\n";
+    for (int i = 0; i < resultCount; i++)
+    {
+        cout << "Job ID: " << results[i].job.id << ", Title: " << results[i].job.role << endl;
+        cout << "Required Skills: ";
+        for (int j = 0; j < results[i].job.skillCount; j++)
+        {
+            cout << results[i].job.skills[j];
+            if (j < results[i].job.skillCount - 1)
+                cout << ", ";
+        }
+        cout << endl;
+        cout << "Match Percentage: " << results[i].matchPercentage << "%\n";
+        cout << "---------------------\n"
+             << endl;
+    }
+    cout << "Total Matched Jobs: " << resultCount << endl;
+}
+
+void findMatchingJobsArray(
+    const int sortChoice,
+    const int searchChoice,
+    const int linearSortChoice,
+    string *userSkills,
+    const int userSkillCount,
+    size_t *fetchDataMemory_ptr,
+    size_t *matchingMemory_ptr)
+{
+    using namespace std::chrono;
+    cout << "Finding matching jobs...\n";
+
+    // Load jobs
+    auto fetchStart = high_resolution_clock::now();
+    JobArray *jobs = fetchJobsArray();
+    auto fetchEnd = high_resolution_clock::now();
+    auto fetchDuration = duration_cast<milliseconds>(fetchEnd - fetchStart);
+
+    *fetchDataMemory_ptr = 0;
+    for (int i = 0; i < jobs->getSize(); i++)
+    {
+        Job &j = jobs->get(i);
+        *fetchDataMemory_ptr += sizeof(Job) + j.role.capacity();
+        for (int k = 0; k < j.skillCount; k++)
+            *fetchDataMemory_ptr += j.skills[k].capacity();
+    }
+
+    // Sort job skills if needed
+    auto sortStart = high_resolution_clock::now();
+    if (sortChoice == 1)
+    {
+        for (int i = 0; i < jobs->getSize(); i++)
+        {
+            Job &j = jobs->get(i);
+            j.skills = mergeSortStringArray(j.skills, j.skillCount);
+        }
+    }
+    else if (sortChoice == 2 && linearSortChoice == 1)
+    {
+        // Implement linear sort later
+    }
+    auto sortEnd = high_resolution_clock::now();
+    auto sortDuration = duration_cast<milliseconds>(sortEnd - sortStart);
+
+    // Find matches
+    ResultJob *results = new ResultJob[jobs->getSize()];
+    int resultCount = 0;
+
+    auto searchStart = high_resolution_clock::now();
+    for (int i = 0; i < jobs->getSize(); i++)
+    {
+        Job &j = jobs->get(i);
+        int matchCount = 0;
+
+        if (searchChoice == 2)
+        {
+            for (int u = 0; u < userSkillCount; u++)
+                if (binarySearchSkillArray(j.skills, j.skillCount, userSkills[u]))
+                    matchCount++;
+        }
+        else if (searchChoice == 1)
+        {
+            // Implement linear search later
+        }
+        double matchPercentage = (double)matchCount / userSkillCount * 100.0;
+
+        if (matchPercentage >= 50.0)
+        {
+            results[resultCount] = {j, matchPercentage};
+            resultCount++;
+        }
+    }
+    auto searchEnd = high_resolution_clock::now();
+    auto matchDuration = duration_cast<milliseconds>(searchEnd - searchStart);
+
+    auto sortResultStart = high_resolution_clock::now();
+    results = mergeSortJob(results, resultCount);
+    auto sortResultEnd = high_resolution_clock::now();
+    auto sortResultDuration = duration_cast<milliseconds>(sortResultEnd - sortResultStart);
+
+    printMatchedJobsArray(results, resultCount);
+
+    cout << "Fetch Time: " << fetchDuration.count() << " ms\n";
+    cout << "Sort Time: " << sortDuration.count() + sortResultDuration.count() << " ms\n";
     cout << "Match Time: " << matchDuration.count() << " ms\n";
 }
 
@@ -364,6 +522,14 @@ int main()
     cin >> searchChoice;
     cout << endl;
 
+    int linearSortChoice = 2;
+    if (searchChoice == 1)
+    {
+        printLinearSortingOptions();
+        cin >> linearSortChoice;
+        cout << endl;
+    }
+
     int totalExecutionTime = 0;
     size_t skillInputMemory;
     size_t *skillInputMemory_ptr = &skillInputMemory;
@@ -372,7 +538,34 @@ int main()
     size_t matchingMemory;
     size_t *matchingMemory_ptr = &matchingMemory;
 
-    if (dsChoice == 2)
+    if (dsChoice == 1)
+    { // Array
+        string *userSkills = nullptr;
+        int userSkillCount = 0;
+        getSkillsInputArray(userSkillCount, userSkills, skillInputMemory_ptr);
+
+        auto start = high_resolution_clock::now();
+        if (taskChoice == 1) // Find matching jobs
+        {
+            findMatchingJobsArray(
+                sortChoice,
+                searchChoice,
+                linearSortChoice,
+                userSkills,
+                userSkillCount,
+                fetchDataMemory_ptr,
+                matchingMemory_ptr);
+        }
+        else if (taskChoice == 2)
+        { // Find matching resumes
+        }
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<milliseconds>(end - start);
+        totalExecutionTime += duration.count();
+        delete[] userSkills;
+    }
+
+    else if (dsChoice == 2)
     { // Linked List
         SkillNode *skillHead = nullptr;
         int count = 0;
@@ -383,11 +576,25 @@ int main()
         auto start = high_resolution_clock::now();
         if (taskChoice == 1) // Find matching jobs
         {
-            findMatchingJobsLinkedList(sortChoice, searchChoice, skillHead, count, fetchDataMemory_ptr, matchingMemory_ptr);
+            findMatchingJobsLinkedList(
+                sortChoice,
+                searchChoice,
+                linearSortChoice,
+                skillHead,
+                count,
+                fetchDataMemory_ptr,
+                matchingMemory_ptr);
         }
         else if (taskChoice == 2)
         { // Find matching resumes
-            findMatchingResumesLinkedList(sortChoice, searchChoice, skillHead, count, fetchDataMemory_ptr, matchingMemory_ptr);
+            findMatchingResumesLinkedList(
+                sortChoice,
+                searchChoice,
+                linearSortChoice,
+                skillHead,
+                count,
+                fetchDataMemory_ptr,
+                matchingMemory_ptr);
         }
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<milliseconds>(end - start);

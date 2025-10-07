@@ -8,20 +8,21 @@ struct SkillNode
     SkillNode *next;
 };
 
-struct JobDescription
+struct JobDescriptionNode
 {
     int jobID;
     string jobTitle;
     SkillNode *skillLinkedListHead;
-    JobDescription *next;
+    JobDescriptionNode *next;
 };
 
-struct Resume
+struct ResumeNode
 {
     int resumeID;
     SkillNode *skillLinkedListHead;
-    Resume *next;
+    ResumeNode *next;
 };
+
 
 SkillNode* getMiddleSkillNodeForSort(SkillNode *head);
 SkillNode* getMiddleSkillNodeForSearch(SkillNode *left, SkillNode *right);
