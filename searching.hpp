@@ -7,3 +7,4 @@ bool linearSearchSkill(SkillNode* head, const string& target);
 
 // Array Search Functions
 bool binarySearchSkillArray(string *skills, int arrSize, const string &target);
+bool linerarSearchSkillArray(string *skills, int arrSize, const string &target);

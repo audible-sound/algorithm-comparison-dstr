@@ -12,6 +12,15 @@ ResultCandidate *mergeSortCandidate(ResultCandidate *arr, int size);
 ResultJob *mergeJob(ResultJob *left, int leftSize, ResultJob *right, int rightSize);
 ResultJob *mergeSortJob(ResultJob *arr, int size);
 
+int partition(string *arr, int low, int high);
+void quickSort(string *arr, int low, int high);
+
+int partition(ResultJob *arr, int low, int high);
+void quickSort(ResultJob *arr, int low, int high);
+
+int partition(ResultCandidate *arr, int low, int high);
+void quickSort(ResultCandidate *arr, int low, int high);
+
 // Linked list sorting functions
 SkillNode *mergeTwoSortedSkillLists(SkillNode *left, SkillNode *right);
 SkillNode *mergeSortSkillLinkedList(SkillNode *head);
@@ -25,3 +34,11 @@ JobDescriptionNode *mergeSortJob(JobDescriptionNode *head);
 SkillNode *partition(SkillNode *head, SkillNode *end, SkillNode **newHead, SkillNode **newEnd);
 SkillNode *quickSort(SkillNode *head, SkillNode *end);
 SkillNode *getTail(SkillNode *tail);
+
+ResumeNode *partition(ResumeNode *head, ResumeNode *end, ResumeNode **newHead, ResumeNode **newEnd);
+ResumeNode *quickSort(ResumeNode *head, ResumeNode *end);
+ResumeNode *getTail(ResumeNode *tail);
+
+JobDescriptionNode *partition(JobDescriptionNode *head, JobDescriptionNode *end, JobDescriptionNode **newHead, JobDescriptionNode **newEnd);
+JobDescriptionNode *quickSort(JobDescriptionNode *head, JobDescriptionNode *end);
+JobDescriptionNode *getTail(JobDescriptionNode *tail);
