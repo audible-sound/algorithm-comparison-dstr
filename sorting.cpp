@@ -150,6 +150,78 @@ SkillNode *mergeSortSkillLinkedList(SkillNode *head)
     return mergeTwoSortedSkillLists(left, right);
 }
 
+ResumeNode *mergeTwoSortedResume(ResumeNode *left, ResumeNode *right)
+{
+    if (!left)
+        return right;
+    if (!right)
+        return left;
+
+    ResumeNode *result = nullptr;
+    if (left->matchPercentage <= right->matchPercentage)
+    {
+        result = left;
+        result->next = mergeTwoSortedResume(left->next, right);
+    }
+    else
+    {
+        result = right;
+        result->next = mergeTwoSortedResume(left, right->next);
+    }
+    return result;
+}
+
+ResumeNode *mergeSortResume(ResumeNode *head)
+{
+    if (!head || !head->next)
+        return head;
+
+    ResumeNode *mid = getMiddleResumeNodeForSort(head);
+    ResumeNode *secondHalf = mid->next;
+    mid->next = nullptr;
+
+    ResumeNode *left = mergeSortResume(head);
+    ResumeNode *right = mergeSortResume(secondHalf);
+
+    return mergeTwoSortedResume(left, right);
+}
+
+JobDescriptionNode *mergeTwoSortedJob(JobDescriptionNode *left, JobDescriptionNode *right)
+{
+        if (!left)
+        return right;
+    if (!right)
+        return left;
+
+    JobDescriptionNode *result = nullptr;
+    if (left->matchPercentage <= right->matchPercentage)
+    {
+        result = left;
+        result->next = mergeTwoSortedJob(left->next, right);
+    }
+    else
+    {
+        result = right;
+        result->next = mergeTwoSortedJob(left, right->next);
+    }
+    return result;
+}
+
+JobDescriptionNode *mergeSortJob(JobDescriptionNode *head)
+{
+    if (!head || !head->next)
+        return head;
+
+    JobDescriptionNode *mid = getMiddleJobNodeForSort(head);
+    JobDescriptionNode *secondHalf = mid->next;
+    mid->next = nullptr;
+
+    JobDescriptionNode *left = mergeSortJob(head);
+    JobDescriptionNode *right = mergeSortJob(secondHalf);
+
+    return mergeTwoSortedJob(left, right);
+}
+
 // Partition the list around pivot (last element)
 SkillNode *partition(SkillNode *head, SkillNode *end, SkillNode **newHead, SkillNode **newEnd)
 {

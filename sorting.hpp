@@ -16,6 +16,12 @@ ResultJob *mergeSortJob(ResultJob *arr, int size);
 SkillNode *mergeTwoSortedSkillLists(SkillNode *left, SkillNode *right);
 SkillNode *mergeSortSkillLinkedList(SkillNode *head);
 
+ResumeNode *mergeTwoSortedResume(ResumeNode *left, ResumeNode *right);
+ResumeNode *mergeSortResume(ResumeNode *head);
+
+JobDescriptionNode *mergeTwoSortedJob(JobDescriptionNode *left, JobDescriptionNode *right);
+JobDescriptionNode *mergeSortJob(JobDescriptionNode *head);
+
 SkillNode *partition(SkillNode *head, SkillNode *end, SkillNode **newHead, SkillNode **newEnd);
 SkillNode *quickSort(SkillNode *head, SkillNode *end);
 SkillNode *getTail(SkillNode *tail);
