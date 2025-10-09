@@ -20,6 +20,17 @@ bool binarySearchSkillArray(string *skills, int arrSize, const string &target)
     return false;
 }
 
+bool linerarSearchSkillArray(string *skills, int arrSize, const string &target)
+{
+    string tgt = toLower(target);
+    for (int i = 0; i < arrSize; i++) {
+        if (toLower(skills[i]) == tgt) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Linked List search
 bool binarySearchSkillList(SkillNode *head, const string &target) {
     SkillNode* left = head;
