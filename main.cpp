@@ -40,7 +40,7 @@ void printSearchingOptions()
 
 void printLinearSortingOptions()
 {
-    cout << "Do you want to sort array before linear search:\n";
+    cout << "Do you want to sort array/linked list before linear search:\n";
     cout << "1. Yes\n";
     cout << "2. No\n";
 }
