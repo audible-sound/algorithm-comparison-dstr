@@ -492,6 +492,11 @@ void findMatchingJobsArray(
     else if (sortChoice == 2 && linearSortChoice == 1)
     {
         // Implement linear sort later
+        for (int i = 0; i < jobs->getSize(); i++)
+        {
+            Job &j = jobs->get(i);
+            quickSort(j.skills, 0, j.skillCount - 1);
+        }
     }
     auto sortEnd = high_resolution_clock::now();
     auto sortDuration = duration_cast<milliseconds>(sortEnd - sortStart);
@@ -616,7 +621,11 @@ void findMatchingResumesArray(
     }
     else if (sortChoice == 2 && linearSortChoice == 1)
     {
-        // Implement linear sort later
+        for (int i = 0; i < candidates->getSize(); i++)
+        {
+            Candidate &c = candidates->get(i);
+            quickSort(c.skills, 0, c.skillCount - 1);
+        }
     }
     auto sortEnd = high_resolution_clock::now();
     auto sortDuration = duration_cast<milliseconds>(sortEnd - sortStart);
@@ -746,6 +755,14 @@ int main()
         }
         else if (taskChoice == 2)
         { // Find matching resumes
+            findMatchingResumesArray(
+                sortChoice,
+                searchChoice,
+                linearSortChoice,
+                userSkills,
+                userSkillCount,
+                fetchDataMemory_ptr,
+                matchingMemory_ptr);
         }
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<milliseconds>(end - start);
