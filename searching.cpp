@@ -1,5 +1,6 @@
 #include "searching.hpp"
 #include "fileUtils.hpp"
+#include <iostream>
 
 // Array search
 bool binarySearchSkillArray(string *skills, int arrSize, const string &target)

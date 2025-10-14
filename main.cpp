@@ -141,11 +141,14 @@ void findMatchingJobsLinkedList(
             jobSkill = mergeSortSkillLinkedList(jobSkill);
             currentJob->skillLinkedListHead = jobSkill;
         }
-        else if (sortChoice == 2 && linearSortChoice == 1)
+        else if (sortChoice == 2)
         {
-            SkillNode *tail = getTail(jobSkill);
-            SkillNode *afterSort = quickSort(jobSkill, getTail(jobSkill));
-            currentJob->skillLinkedListHead = afterSort;
+            if ((searchChoice == 1 && linearSortChoice == 1) || searchChoice == 2)
+            {
+                SkillNode *tail = getTail(jobSkill);
+                SkillNode *afterSort = quickSort(jobSkill, getTail(jobSkill));
+                currentJob->skillLinkedListHead = afterSort;
+            }
         }
         *fetchDataMemory_ptr += sizeof(JobDescriptionNode) + currentJob->jobTitle.capacity();
         currentJob = currentJob->next;
@@ -302,11 +305,14 @@ void findMatchingResumesLinkedList(
             resumeSkill = mergeSortSkillLinkedList(resumeSkill);
             currentResume->skillLinkedListHead = resumeSkill;
         }
-        else if (sortChoice == 2 && linearSortChoice == 1)
+        else if (sortChoice == 2)
         {
-            SkillNode *tail = getTail(resumeSkill);
-            SkillNode *afterSort = quickSort(resumeSkill, getTail(resumeSkill));
-            currentResume->skillLinkedListHead = afterSort;
+            if ((searchChoice == 1 && linearSortChoice == 1) || searchChoice == 2)
+            {
+                SkillNode *tail = getTail(resumeSkill);
+                SkillNode *afterSort = quickSort(resumeSkill, getTail(resumeSkill));
+                currentResume->skillLinkedListHead = afterSort;
+            }
         }
         *fetchDataMemory_ptr += sizeof(ResumeNode) + sizeof(int);
         currentResume = currentResume->next;
@@ -489,13 +495,15 @@ void findMatchingJobsArray(
             j.skills = mergeSortStringArray(j.skills, j.skillCount);
         }
     }
-    else if (sortChoice == 2 && linearSortChoice == 1)
+    else if (sortChoice == 2)
     {
-        // Implement linear sort later
-        for (int i = 0; i < jobs->getSize(); i++)
+        if ((searchChoice == 1 && linearSortChoice == 1) || searchChoice == 2)
         {
-            Job &j = jobs->get(i);
-            quickSort(j.skills, 0, j.skillCount - 1);
+            for (int i = 0; i < jobs->getSize(); i++)
+            {
+                Job &j = jobs->get(i);
+                quickSort(j.skills, 0, j.skillCount - 1);
+            }
         }
     }
     auto sortEnd = high_resolution_clock::now();
@@ -619,12 +627,15 @@ void findMatchingResumesArray(
             c.skills = mergeSortStringArray(c.skills, c.skillCount);
         }
     }
-    else if (sortChoice == 2 && linearSortChoice == 1)
+    else if (sortChoice == 2)
     {
-        for (int i = 0; i < candidates->getSize(); i++)
+        if ((searchChoice == 1 && linearSortChoice == 1) || searchChoice == 2)
         {
-            Candidate &c = candidates->get(i);
-            quickSort(c.skills, 0, c.skillCount - 1);
+            for (int i = 0; i < candidates->getSize(); i++)
+            {
+                Candidate &c = candidates->get(i);
+                quickSort(c.skills, 0, c.skillCount - 1);
+            }
         }
     }
     auto sortEnd = high_resolution_clock::now();

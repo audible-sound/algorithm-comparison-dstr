@@ -1,4 +1,5 @@
 #include "sorting.hpp"
+#include <iostream>
 
 // Array sorting functions
 // Merge sort implementation for string array
